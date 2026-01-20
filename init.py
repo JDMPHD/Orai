@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
+# The base_url must NOT have /v1 for the GitHub Models inference endpoint
 client = OpenAI(
-    # The '/v1' is required here for the library to find the chat path
     base_url="https://models.github.ai",
     api_key=os.environ.get("GITHUB_TOKEN"),
 )
@@ -24,7 +24,8 @@ while True:
                 {"role": "system", "content": "You are a helpful assistant."},
                 {"role": "user", "content": user_input},
             ],
-            model="gpt-4o",
+            # Use the full provider/model path
+            model="openai/gpt-4o", 
         )
         print(f"AI: {response.choices[0].message.content}\n")
     except Exception as e:
